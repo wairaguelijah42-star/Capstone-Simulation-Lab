@@ -1,0 +1,8 @@
+2026-07-18 02:14:03 INFO  auth  login_success user=jkamau ip=41.90.12.4
+2026-07-18 02:15:11 WARN  auth  login_failed  user=admin ip=185.220.101.7
+2026-07-18 02:15:12 WARN  auth  login_failed  user=admin ip=185.220.101.7
+2026-07-18 02:15:14 WARN  auth  login_failed  user=admin ip=185.220.101.7
+2026-07-18 02:36:02 INFO  auth  login_success user=admin ip=185.220.101.7
+2026-07-18 02:41:19 INFO  api   request GET /admin/users user_id=42 role=user status=200
+2026-07-18 03:02:44 WARN  api   request GET /accounts?account_id=1043 user_id=42 status=200
+2026-07-18 03:10:57 INFO  api   request POST /upload user_id=44 filename=payload.php status=200
