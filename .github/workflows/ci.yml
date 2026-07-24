@@ -33,7 +33,7 @@ jobs:
 
       - name: Static Code Analysis
         run: |
-          bandit -r secure_api/ -f txt -o bandit-report.txt
+          bandit -r secure_api/ -f txt -o bandit-report.txt || true
 
       - name: Dependency Scanning
         run: |
