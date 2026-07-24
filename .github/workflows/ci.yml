@@ -37,7 +37,7 @@ jobs:
 
       - name: Dependency Scanning
         run: |
-          safety check -r secure_api/requirements.txt
+          safety check -r secure_api/requirements.txt > safety-report.txt
 
       - name: Secret Detection
         uses: gitleaks/gitleaks-action@v2
@@ -55,8 +55,8 @@ jobs:
           image-ref: secure-api
           format: table
           output: trivy-report.txt
-          severity: HIGH,CRITICAL    
-              - name: Upload Security Reports
+          severity: HIGH,CRITICAL 
+     - name: Upload Security Reports
         uses: actions/upload-artifact@v4
         with:
           name: DevSecOps-Reports
