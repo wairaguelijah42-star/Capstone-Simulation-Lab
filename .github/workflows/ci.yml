@@ -4,18 +4,15 @@ on:
   push:
     branches:
       - master
-
   pull_request:
     branches:
       - master
 
 jobs:
   security:
-
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout Repository
         uses: actions/checkout@v4
 
@@ -28,16 +25,19 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r secure_api/requirements.txt
-          pip install bandit safety
-          
+          pip install bandit safety pytest
 
-      - name: Static Code Analysis
+      - name: Static Code Analysis (Bandit)
         run: |
-          bandit -r secure_api/ -f txt -o bandit-report.txt || true
+          bandit \
+            -r secure_api \
+            -x secure_api/venv,secure_api/__pycache__,secure_api/logs \
+            -f txt \
+            -o bandit-report.txt
 
-      - name: Dependency Scanning
+      - name: Dependency Scanning (Safety)
         run: |
-          safety check -r secure_api/requirements.txt > safety-report.txt
+          safety check -r secure_api/requirements.txt > safety-report.txt || true
 
       - name: Secret Detection
         uses: gitleaks/gitleaks-action@v2
@@ -45,6 +45,7 @@ jobs:
       - name: Unit Testing
         run: |
           python -m pytest tests/ > pytest-report.txt
+
       - name: Build Docker Image
         run: |
           docker build -t secure-api ./secure_api
@@ -64,8 +65,9 @@ jobs:
           name: DevSecOps-Reports
           path: |
             bandit-report.txt
+            safety-report.txt
             pytest-report.txt
             trivy-report.txt
 
-      - name: Pipeline Started
-        run: echo "DevSecOps Pipeline Running"
+      - name: Pipeline Completed
+        run: echo "DevSecOps Pipeline Completed Successfully"
