@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+venv/
+database.db
+
+logs/
+*.log
+postman.tar.gz
+secure_api/postman.tar.gz
