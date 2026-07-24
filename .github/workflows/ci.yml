@@ -55,16 +55,17 @@ jobs:
           image-ref: secure-api
           format: table
           output: trivy-report.txt
-          severity: HIGH,CRITICAL 
-     - name: Upload Security Reports
+          severity: HIGH,CRITICAL
+          exit-code: 0
+
+      - name: Upload Security Reports
         uses: actions/upload-artifact@v4
         with:
           name: DevSecOps-Reports
           path: |
             bandit-report.txt
-            safety-report.txt
             pytest-report.txt
-            trivy-report.txt  
-        exit-code: 0
+            trivy-report.txt
+
       - name: Pipeline Started
         run: echo "DevSecOps Pipeline Running"
