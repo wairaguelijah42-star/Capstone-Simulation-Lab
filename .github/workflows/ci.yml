@@ -44,7 +44,7 @@ jobs:
 
       - name: Unit Testing
         run: |
-          python -m pytest tests/ > pytest-report.txt
+          python -m pytest tests/ -v
 
       - name: Build Docker Image
         run: |
