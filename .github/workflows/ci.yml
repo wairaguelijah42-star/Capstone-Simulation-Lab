@@ -34,8 +34,7 @@ jobs:
             -r secure_api \
             -x secure_api/venv,secure_api/__pycache__,secure_api/logs \
             -f txt \
-            -o bandit-report.txt
-            || true
+            -o bandit-report.txt || true
       - name: Dependency Scanning (Safety)
         run: |
           safety check -r secure_api/requirements.txt > safety-report.txt || true
