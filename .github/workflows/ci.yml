@@ -28,6 +28,10 @@ jobs:
           pip install -r secure_api/requirements.txt
           pip install bandit safety pytest
 
+      - name: Initialize Test Database
+        run: |
+          python secure_api/init_db.py
+
       - name: Static Code Analysis (Bandit)
         run: |
           bandit \
