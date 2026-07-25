@@ -30,7 +30,7 @@ jobs:
 
       - name: Initialize Test Database
         run: |
-          python secure_api/init_db.py
+          python init_db.py
 
       - name: Static Code Analysis (Bandit)
         run: |
