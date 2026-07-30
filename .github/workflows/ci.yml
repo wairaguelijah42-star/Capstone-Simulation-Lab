@@ -46,7 +46,7 @@ jobs:
           -o bandit-report.txt  || true
           EXIT_CODE=$?
           echo "===== BANDIT REPORT ====="
-          cat ../bandit-report.txt
+          cat bandit-report.txt
 
       - name: Dependency Scan
         run: |
