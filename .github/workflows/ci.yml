@@ -43,16 +43,18 @@ jobs:
       - name: Run Bandit
         run: |
           bandit -r . \
-          -x ./venv,./logs,./__pycache__ ,./automation,./security_automation \
+          -x ./venv,./logs,./__pycache__,./automation,./security_automation \
           -f txt \
-          -o bandit-report.txt  || true
+          -o bandit-report.txt
           EXIT_CODE=$?
           echo "===== BANDIT REPORT ====="
           cat bandit-report.txt
 
       - name: Dependency Scan
         run: |
-          pip-audit -r requirements.txt > pip-audit-report.txt
+          pip-audit -r requirements.txt | tee pip-audit-report.txt
+          ls -lh pip-audit-report.txt
+          cat pip-audit-report.txt
       - name: Build Docker Image
         run: |
           pwd
@@ -67,6 +69,12 @@ jobs:
           output: trivy-report.txt
           severity: HIGH,CRITICAL
           exit-code: "0"
+      - name: Verify Trivy report
+        run: |
+          pwd
+          ls -lah
+          ls -lh trivy-report.txt
+          cat trivy-report.txt
       - name: Debug report locations
         run: |
           echo "Current directory:"
@@ -74,6 +82,19 @@ jobs:
 
           echo "Repository contents:"
           find .. -name "*report.txt"
+      - name: Verify reports
+        run: |
+          pwd
+          find . -name "*report.txt"
+
+          echo "===== BANDIT ====="
+          cat bandit-report.txt
+
+          echo "===== PIP AUDIT ====="
+          cat pip-audit-report.txt
+
+          echo "===== TRIVY ====="
+          cat trivy-report.txt
       - name: Upload Reports
         uses: actions/upload-artifact@v4
         with:
