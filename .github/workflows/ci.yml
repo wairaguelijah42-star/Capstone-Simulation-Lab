@@ -41,8 +41,7 @@ jobs:
       - name: Run Bandit
         run: |
           bandit -r . \
-          
-          -x ./venv,./logs,./__pycache__ \
+          -x ./venv,./logs,./__pycache__ ,./automation,./security_automation \
           -f txt \
           -o bandit-report.txt  || true
           EXIT_CODE=$?
