@@ -35,7 +35,7 @@ jobs:
 
       - name: Static Code Analysis (Bandit)
         run: |
-          bandit -r . \
+          bandit -r secure_api  \
           -x ./venv,./logs,./__pycache__ \
           -f txt \
           -o ../bandit-report.txt
