@@ -35,7 +35,7 @@ jobs:
 
       - name: Static Code Analysis (Bandit)
         run: |
-          bandit -r secure_api  \
+          bandit -r.  \
           -x ./venv,./logs,./__pycache__ \
           -f txt \
           -o ../bandit-report.txt
@@ -54,6 +54,7 @@ jobs:
           pytest ../tests -v | tee ../pytest-report.txt
 
       - name: Build Docker Image
+        working-directory: .
         run: |
           docker build -t secure-api .
 
