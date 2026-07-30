@@ -14,10 +14,13 @@ def login():
     username = request.form['username']
     password = request.form['password']
 
-    query = (
-        "SELECT * FROM users WHERE username = '" + username + "' "
-        "AND password = '" + password + "'"
-    )
+    query = """
+    SELECT * FROM users
+    WHERE username = ?
+    AND password = ?
+    """
+
+    cursor.execute(query, (username, password))
 
     result = db.execute(query)
 

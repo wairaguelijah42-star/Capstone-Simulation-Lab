@@ -1,9 +1,22 @@
+# Python
 __pycache__/
 *.pyc
 venv/
-database.db
+secure_api/venv/
 
+# Databases
+database.db
+secure_api/database.db
+
+# Logs
 logs/
 *.log
+
+# Secrets
+.env
+secure_api/.env
+*.pem
+
+# Large files
 postman.tar.gz
 secure_api/postman.tar.gz

@@ -11,8 +11,54 @@ from dotenv import load_dotenv
 import re
 import os
 
+from functools import wraps
+
+def verify_jwt():
+
+    auth = request.headers.get("Authorization")
+
+    if not auth or not auth.startswith("Bearer "):
+        return None
+
+    token = auth.split(" ")[1]
+
+    try:
+        payload = jwt.decode(
+            token,
+            SECRET_KEY,
+            algorithms=["HS256"]
+        )
+        return payload
+
+    except Exception:
+        return None
+def admin_required(f):
+
+    @wraps(f)
+
+    def decorated(*args, **kwargs):
+
+        payload = verify_jwt()
+
+        if not payload:
+            return jsonify({
+                "message": "Authentication required"
+            }),401
+
+        if payload["role"] != "admin":
+            return jsonify({
+                "message": "Access denied"
+            }),403
+
+        return f(*args, **kwargs)
+
+    return decorated
 app = Flask(__name__)
-Talisman(app)
+app.config["TESTING"] = True
+if not app.config.get("TESTING"):
+    Talisman(app, force_https=True)
+else:
+    Talisman(app, force_https=False)
 limiter = Limiter(
     key_func=get_remote_address,
     app=app,
@@ -102,6 +148,20 @@ def login():
         (username,)
     ).fetchone()
 
+    print("Username received:", repr(username))
+    print("Password received:", repr(password))
+    print("User found:", user is not None)
+
+    if user:
+        print("DB username:", user["username"])
+        print("DB hash:", repr(user["password"]))
+        print(
+            "Password matches:",
+            bcrypt.checkpw(
+                password.encode("utf-8"),
+                user["password"].encode("utf-8")
+        )
+    )
     if not user:
         return jsonify({
             "status": "failed",
@@ -117,11 +177,14 @@ def login():
             "message": "Invalid username or password"
         }), 401
 
+    print("Username received:", repr(username))
+    print("User found:", user is not None)
+    print("Password matches:",
+          bcrypt.checkpw(password.encode(), user["password"].encode()))
     payload = {
         "user_id": user["user_id"],
         "role": user["role"]
     }
-
     token = jwt.encode(
         payload,
         SECRET_KEY,
@@ -134,6 +197,7 @@ def login():
         "role": user["role"]
     })
 @app.route("/admin/users", methods=["GET"])
+@admin_required
 def admin_users():
 
     db = get_db()
@@ -334,8 +398,8 @@ def owasp_mapping():
 if __name__ == "__main__":
     print(app.url_map)
     app.run(
-        host="127.0.0.1",
+        host="0.0.0.0",
         port=5000,
-        ssl_context=("cert.pem", "key.pem"),
+        ssl_context=("secure_api/cert.pem", "secure_api/key.pem"),
         debug=False
     )

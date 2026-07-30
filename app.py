@@ -1,7 +1,11 @@
 from flask import Flask, request,jsonify
 import sqlite3
 import jwt
-SECRET_KEY = "csb-jwt-2019"
+import os
+from dotenv import load_dotenv
+load_dotenv()
+
+SECRET_KEY = "CapstoneSecretKey2026"
 
 app = Flask(__name__)
 print(">>> LOADED UPDATED APP.PY <<<")
@@ -24,9 +28,9 @@ def login():
         "SELECT * FROM users WHERE username = '" + username + "' "
         "AND password = '" + password + "'"
     )
-
+    print(query)
     user = db.execute(query).fetchone()
-
+    print("User:", user)
     if user:
         payload = {
           "user_id": user["user_id"],
