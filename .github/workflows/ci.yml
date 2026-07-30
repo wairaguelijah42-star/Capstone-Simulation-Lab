@@ -52,7 +52,7 @@ jobs:
 
       - name: Dependency Scan
         run: |
-          pip-audit -r requirements.txt > ../pip-audit-report.txt
+          pip-audit -r requirements.txt > pip-audit-report.txt
       - name: Build Docker Image
         run: |
           pwd
@@ -67,12 +67,18 @@ jobs:
           output: trivy-report.txt
           severity: HIGH,CRITICAL
           exit-code: "0"
+      - name: Debug report locations
+        run: |
+          echo "Current directory:"
+          pwd
 
+          echo "Repository contents:"
+          find .. -name "*report.txt"
       - name: Upload Reports
         uses: actions/upload-artifact@v4
         with:
           name: Security-Reports
           path: |
-            ../bandit-report.txt
-            ../pip-audit-report.txt
-            ../trivy-report.txt
+           secure_api/bandit-report.txt
+           secure_api/pip-audit-report.txt
+           secure_api/trivy-report.txt
