@@ -32,13 +32,16 @@ jobs:
       - name: Initialize Database
         run: |
           python init_db.py
-
+      - name: Debug Files
+        run: |
+          pwd
+          find . -maxdepth 3
       - name: Static Code Analysis (Bandit)
         run: |
           bandit  -r . \
           -x secure_api/venv \
           -f txt \
-          -o ../bandit-report.txt
+          -o ../bandit-report.txt 
 
           echo "========== BANDIT REPORT =========="
           cat ../bandit-report.txt
