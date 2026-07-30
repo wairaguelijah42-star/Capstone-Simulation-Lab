@@ -44,6 +44,7 @@ jobs:
           
           -x ./venv,./logs,./__pycache__ \
           -f txt \
+          -o bandit-report.txt  || true
           EXIT_CODE=$?
           echo "===== BANDIT REPORT ====="
           cat ../bandit-report.txt
