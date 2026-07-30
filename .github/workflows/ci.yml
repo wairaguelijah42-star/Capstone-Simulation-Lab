@@ -52,7 +52,7 @@ jobs:
 
       - name: Dependency Scan
         run: |
-          pip-audit -r requirements.txt | tee pip-audit-report.txt
+          pip-audit -r requirements.txt 2>&1 | tee pip-audit-report.txt
           ls -lh pip-audit-report.txt
           cat pip-audit-report.txt
       - name: Build Docker Image
@@ -86,7 +86,7 @@ jobs:
         run: |
           pwd
           find . -name "*report.txt"
-
+          ls -lh secure_api/*.txt
           echo "===== BANDIT ====="
           cat bandit-report.txt
 
