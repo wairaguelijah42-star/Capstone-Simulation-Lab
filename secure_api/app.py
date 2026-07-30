@@ -400,6 +400,6 @@ if __name__ == "__main__":
     app.run(
         host="0.0.0.0",  # nosec B104
         port=5000,
-        ssl_context=("secure_api/cert.pem", "secure_api/key.pem"),
+        ssl_context=("cert.pem", "key.pem"),
         debug=False
     )
