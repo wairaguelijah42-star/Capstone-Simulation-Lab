@@ -35,11 +35,13 @@ jobs:
 
       - name: Static Code Analysis (Bandit)
         run: |
-          bandit -r.  \
-          -x ./venv,./logs,./__pycache__ \
+          bandit  -r . \
+          -x secure_api/venv \
           -f txt \
           -o ../bandit-report.txt
 
+          echo "========== BANDIT REPORT =========="
+          cat ../bandit-report.txt
       - name: Dependency Scan
         run: |
           safety check -r requirements.txt \
