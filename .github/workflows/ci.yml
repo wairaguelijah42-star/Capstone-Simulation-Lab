@@ -55,7 +55,9 @@ jobs:
           pip-audit -r requirements.txt > ../pip-audit-report.txt
       - name: Build Docker Image
         run: |
-          docker build -t secure-api -f secure_api/Dockerfile secure_api
+          pwd
+          ls -la
+          docker build -t secure-api -f Dockerfile .
 
       - name: Scan Docker Image
         uses: aquasecurity/trivy-action@master
