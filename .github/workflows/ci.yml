@@ -55,7 +55,8 @@ jobs:
           pip-audit \
           -r requirements.txt \
           > ../pip-audit-report.txt
-
+          echo "===== PIP AUDIT REPORT ====="
+          cat pip-audit-report.txt
       - name: Build Docker Image
         working-directory: ..
         run: |
