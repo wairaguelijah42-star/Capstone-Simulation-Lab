@@ -40,9 +40,9 @@ jobs:
 
       - name: Run Bandit
         run: |
-          bandit \
-          -r . \
-          -x ./venv \
+          bandit -r . \
+          
+          -x ./venv,./logs,./__pycache__ \
           -f txt \
           EXIT_CODE=$?
           echo "===== BANDIT REPORT ====="
