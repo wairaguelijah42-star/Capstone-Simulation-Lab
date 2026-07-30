@@ -86,7 +86,7 @@ jobs:
         run: |
           pwd
           find . -name "*report.txt"
-          ls -lh secure_api/*.txt
+          ls -lh *.txt
           echo "===== BANDIT ====="
           cat bandit-report.txt
 
