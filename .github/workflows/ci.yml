@@ -44,7 +44,6 @@ jobs:
           -r . \
           -x ./venv \
           -f txt \
-          -o ../bandit-report.txt
           EXIT_CODE=$?
           echo "===== BANDIT REPORT ====="
           cat ../bandit-report.txt
